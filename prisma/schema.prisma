@@ -15,15 +15,17 @@ datasource db {
 }
 
 model Product {
-  id            Int     @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   name          String
-  rating        Int     @default(0)
+  rating        Int      @default(0)
   salePrice     Decimal
   originalPrice Decimal
-  categoryId    Int     @unique
+  categoryId    Int      @unique
+  category      Category @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
