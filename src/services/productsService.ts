@@ -1,35 +1,45 @@
 import { PrismaClient } from "../../generated/prisma";
 import { withAccelerate } from '@prisma/extension-accelerate'
-import OpenAI from 'openai';
+// import OpenAI from 'openai';
 
 const prisma = new PrismaClient().$extends(withAccelerate());
-// const deepseek = new OpenAI({
-//     apiKey: process.env.DEEPSEEK_API_KEY,
-// });
 
 export const getAllProducts = async () => {
-    const products = await prisma.product.findMany();
+    const products = await prisma.product.findMany({ include: { category: true } });
     return products;
 }
 
 export const searchProducts = async (query: string) => {
     // Get all products with their categories
     const products = await prisma.product.findMany({
-        select: {
-            id: true,
-            name: true,
-            salePrice: true,
-            originalPrice: true,
-            rating: true,
-            categoryId: true,
+        include: {
+            category: true,
         },
         where: {
-            name: {
-                contains: query,
-                mode: 'insensitive',
-            }
+            OR: [
+                {name: {
+                    contains: query,
+                    mode: 'insensitive',
+                }},
+                {category: {
+                    name: {
+                        contains: query,
+                        mode: 'insensitive',
+                    }
+                }}
+            ]
+            
         }
     });
+
+    return products;
+}
+
+
+// const deepseek = new OpenAI({
+//     apiKey: process.env.DEEPSEEK_API_KEY,
+// });
+
 
 //     // Format products for DeepSeek
 //     const productsContext = products.map(p => 
@@ -64,5 +74,3 @@ export const searchProducts = async (query: string) => {
 //     const relevantProductIds = result.relevantProductIds;
 
     // Return the full product details for the relevant products
-    return products;
-}

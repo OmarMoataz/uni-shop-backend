@@ -15,13 +15,13 @@ datasource db {
 }
 
 model Product {
-  id            Int      @id @default(autoincrement())
-  name          String
-  rating        Int      @default(0)
-  salePrice     Decimal
-  originalPrice Decimal
-  categoryId    Int      @unique
-  category      Category @relation(fields: [categoryId], references: [id])
+  id         Int      @id @default(autoincrement())
+  name       String
+  rating     Int      @default(0)
+  price      Float
+  discount   Float
+  categoryId Int      @unique
+  category   Category @relation(fields: [categoryId], references: [id])
 }
 
 model Category {
