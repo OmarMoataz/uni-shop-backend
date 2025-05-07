@@ -9,6 +9,11 @@ export const getAllProducts = async () => {
     return products;
 }
 
+export const getProductById = async (id: number) => {
+    const product = await prisma.product.findUnique({ where: { id }, include: { category: true } });
+    return product;
+}
+
 export const searchProducts = async (query: string) => {
     // Get all products with their categories
     const products = await prisma.product.findMany({
