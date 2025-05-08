@@ -12,5 +12,11 @@
       "src": "/dist/(.*)",
       "dest": "dist/routers/index.js"
     }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/dist/routers/index.js"
+    }
   ]
 }

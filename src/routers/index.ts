@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/", "Node js running");
 
 app.listen(PORT, () => {
   console.log("Listening on port", PORT);
