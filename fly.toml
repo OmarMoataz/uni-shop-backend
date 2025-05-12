@@ -1,5 +1,0 @@
-[release_command]
-    command = "npm run build"
-
-[processes]
-    app = "node dist/routers/index.js"
