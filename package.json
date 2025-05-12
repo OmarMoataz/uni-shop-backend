@@ -9,8 +9,8 @@
     "start": "node dist/routers/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-server": "tsx watch src/*",
-    "vercel-build": "echo hello",
-    "postinstall": "prisma generate --no-engine"
+    "vercel-build": "echo hello && npx prisma generate",
+    "postinstall": "npx prisma generate"
   },
   "keywords": [],
   "author": "",
