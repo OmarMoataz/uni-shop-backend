@@ -12,6 +12,9 @@ app.use(express.json());
 
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
+app.use("/", () => {
+  console.log("Hello World");
+})
 
 app.listen(PORT, () => {
   console.log("Listening on port", PORT);

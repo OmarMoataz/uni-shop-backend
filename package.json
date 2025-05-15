@@ -5,17 +5,16 @@
   "main": "./dist/routers/index.js",
   "scripts": {
     "dev": "nodemon dist/routers/index",
-    "build": "npx prisma generate && tsc",
+    "build": "pnpm install && npx prisma generate",
     "start": "node dist/routers/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "ts-server": "tsx watch src/*",
-    "vercel-build": "echo hello && npx prisma generate",
-    "postinstall": "npx prisma generate"
+    "ts-server": "tsx watch src/*"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10",
     "@types/node": "^22.15.3",
     "prisma": "^6.7.0",
     "tsx": "^4.19.4",
