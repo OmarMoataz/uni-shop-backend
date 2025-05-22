@@ -3,6 +3,7 @@ const cors = require("cors");
 
 import categoriesRouter from "./categoriesRouter";
 import productsRouter from "./productsRouter";
+import { IResponse } from "../interfaces/IResponse";
 
 const PORT = process.env.PORT || 3000;
 
@@ -12,8 +13,8 @@ app.use(express.json());
 
 app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
-app.use("/", () => {
-  console.log("Hello World");
+app.use("/", (req: Request, res: IResponse<{ message: string }>) => {
+  res.json({ message: "Hello World" });
 })
 
 app.listen(PORT, () => {
