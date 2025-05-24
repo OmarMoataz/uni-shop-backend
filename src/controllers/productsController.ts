@@ -23,7 +23,6 @@ const productsController = {
   },
   search: async (req: IRequest, res: Response): Promise<void> => {
     const { query } = req;
-    console.log(query);
     if (!query) {
       res.status(400).json({ error: "Search query is required" });
       return;
