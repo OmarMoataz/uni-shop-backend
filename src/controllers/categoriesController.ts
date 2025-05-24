@@ -5,7 +5,7 @@ const categoriesController = {
     get: async (req: Request, res: Response): Promise<void> => {
       const data = await getAllCategories();
       res.json(data);
-    },
+    }
   };
 
 

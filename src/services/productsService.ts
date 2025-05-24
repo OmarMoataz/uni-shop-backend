@@ -1,53 +1,60 @@
 import { PrismaClient } from "../../generated/prisma";
-import { withAccelerate } from '@prisma/extension-accelerate'
-// import OpenAI from 'openai';
+import { withAccelerate } from "@prisma/extension-accelerate";
+import { IQuery } from "../interfaces/IRequest";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
 export const getAllProducts = async () => {
-    const products = await prisma.product.findMany({ include: { category: true } });
-    return products;
-}
+  const products = await prisma.product.findMany({
+    include: { category: true },
+  });
+  return products;
+};
 
 export const getProductById = async (id: number) => {
-    const product = await prisma.product.findUnique({ where: { id }, include: { category: true } });
-    return product;
-}
+  const product = await prisma.product.findUnique({
+    where: { id },
+    include: { category: true },
+  });
+  return product;
+};
 
-export const searchProducts = async (query: string) => {
-    // Get all products with their categories
-    const products = await prisma.product.findMany({
-        include: {
-            category: true,
+export const searchProducts = async (queryString: IQuery) => {
+  const { category, query } = queryString;
+
+  const products = await prisma.product.findMany({
+    include: {
+      category: true,
+    },
+    where: {
+      AND: [
+        {
+          name: {
+            contains: query,
+            mode: "insensitive",
+          },
         },
-        where: {
-            OR: [
-                {name: {
-                    contains: query,
-                    mode: 'insensitive',
-                }},
-                {category: {
-                    name: {
-                        contains: query,
-                        mode: 'insensitive',
-                    }
-                }}
-            ]
-            
-        }
-    });
+        {
+          category: {
+            name: {
+              contains: category,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
+  });
 
-    return products;
-}
-
+  return products;
+};
 
 // const deepseek = new OpenAI({
 //     apiKey: process.env.DEEPSEEK_API_KEY,
 // });
 
-
 //     // Format products for DeepSeek
-//     const productsContext = products.map(p => 
+//     const productsContext = products.map(p =>
 //         `Product: ${p.name}, Price: ${p.salePrice}, Rating: ${p.rating}`
 //     ).join('\n');
 
@@ -78,4 +85,4 @@ export const searchProducts = async (query: string) => {
 //     const result = JSON.parse(response.choices[0].message.content || '{"relevantProductIds": []}');
 //     const relevantProductIds = result.relevantProductIds;
 
-    // Return the full product details for the relevant products
+// Return the full product details for the relevant products
