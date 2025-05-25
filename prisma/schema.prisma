@@ -20,7 +20,7 @@ model Product {
   rating     Int      @default(0)
   price      Float
   discount   Float
-  categoryId Int      @unique
+  categoryId Int
   category   Category @relation(fields: [categoryId], references: [id])
 }
 
