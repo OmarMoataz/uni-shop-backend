@@ -4,10 +4,22 @@ import { IQuery } from "../interfaces/IRequest";
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export const getAllProducts = async () => {
-  const products = await prisma.product.findMany({
-    include: { category: true },
-  });
+export const getAllProducts = async (category: string) => {
+  console.log("category", category);
+  let products;
+  if (category === "All")
+    products = await prisma.product.findMany({
+      include: { category: true },
+    });
+  else
+    products = await prisma.product.findMany({
+      include: { category: true },
+      where: {
+        category: {
+          name: category,
+        },
+      },
+    });
   return products;
 };
 

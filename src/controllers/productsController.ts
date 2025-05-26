@@ -8,7 +8,8 @@ import { IRequest } from "../interfaces/IRequest";
 
 const productsController = {
   get: async (req: Request, res: Response): Promise<void> => {
-    const data = await getAllProducts();
+    const { category } = req.query;
+    const data = await getAllProducts(category as string);
     res.json(data);
   },
   getById: async (req: Request, res: Response): Promise<void> => {
